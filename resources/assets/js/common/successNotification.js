@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const successMge = document.getElementById('successMge');
-    const successMgeShow = new bootstrap.Toast(successMge);
-    successMgeShow.show();
+    const successMsg = document.getElementById('successMsg');
+    const successMsgShow = new bootstrap.Toast(successMsg);
+    successMsgShow.show();
 });
