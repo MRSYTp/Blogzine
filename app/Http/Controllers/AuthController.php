@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -33,16 +35,24 @@ class AuthController extends Controller
 
         $user = User::create($fields);
 
+
+        if (!$user) {
+
+            return redirect()->back()->with('error' , 'مشکلی در ثبت نام شما پیش آمده است مجددا اقدام کنید!');
+            
+        }
+
         Auth::login($user);
+        
 
         // mail to user 
 
-
+        Mail::to($request->email)->send(new WelcomeMail($user , $request->password));
 
         //redirect
-
         return redirect()->route('index')->withErrors([
             'success' => auth()->user()->name . ' خوش امدید.',
         ]);
+
     }
 }
