@@ -13,7 +13,13 @@
             <div class="rounded custom-box-shadow rounded p-4 p-sm-5">
                         <h2>ثبت نام در سایت </h2>
                         <!-- Form START -->
-                        <form class="mt-4" action="{{route('registerController')}}" method="POST">
+                        <form class="mt-4" action="{{route('registerController')}}" id="registerForm" method="POST">
+
+                            @if ($errors->has('g-recaptcha-response'))
+                                <div class="alert alert-danger">
+                                    {{$errors->first('g-recaptcha-response')}}
+                                </div>
+                            @endif
                             @csrf
                             <!-- Name -->
                             <div class="mb-3">
@@ -47,7 +53,11 @@
                             <!-- Button -->
                             <div class="row align-items-center">
                                 <div class="col-sm-4">
-                                    <button type="submit" class="btn btn-success">ثبت نام</button>
+                                    <button type="submit" class="g-recaptcha btn btn-success"
+                                            data-sitekey="{{config('services.google_recaptcha_v3.siteKey')}}"
+                                            data-callback='onSubmit'
+                                            data-action='submit'
+                                            >ثبت نام</button>
                                 </div>
                                 <div class="col-sm-8 text-sm-end">
                                     <span>آیا قبلا ثبت نام کرده اید؟ <a href="signin.html"><u>ورود</u></a></span>

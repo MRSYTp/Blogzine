@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use App\Rules\GoogleCaptchaV3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -16,7 +17,8 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => ['required' , 'min:5' ,'max:255'],
             'email' => ['required' , 'max:255' , 'email' , 'unique:users'],
-            'password' => ['required' , 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()]
+            'password' => ['required' , 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
+            'g-recaptcha-response' => ['required' , new GoogleCaptchaV3('submit' , 0.6)]
             ],
             [
                 'name.required' => 'نام و نام خانوادگی خود را وارد نمایید!',
@@ -29,7 +31,8 @@ class AuthController extends Controller
                 'password.required' => 'کلمه عبور خود را وارد نمایید!',
                 'password.min' => 'کلمه عبور باید حداقل 8 کارکتر باشد!',
                 'password.confirmed' => 'کلمه عبور با تکرار آن برابر نیست!',
-                'password.mixed' => 'کلمه عبور باید شامل اعداد کارکتر کوچک و بزرگ و کارکترهای ويژه (!@#$%^&*) باشد!'
+                'password.mixed' => 'کلمه عبور باید شامل اعداد کارکتر کوچک و بزرگ و کارکترهای ويژه (!@#$%^&*) باشد!',
+                'g-recaptcha-response.required' => 'اعتبار سنجی گوگل ریکپچا الزامی است!'
             ]
         );
 
