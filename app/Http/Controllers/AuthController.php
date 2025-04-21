@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Mail\WelcomeMail;
 use App\Models\User;
 use App\Rules\GoogleCaptchaV3;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(Request $request) : RedirectResponse
     {
         $fields = $request->validate([
             'name' => ['required' , 'min:5' ,'max:255'],
@@ -57,5 +59,43 @@ class AuthController extends Controller
             'success' => auth()->user()->name . ' خوش امدید.',
         ]);
 
+    }
+
+    public function login(Request $request) : RedirectResponse
+    {
+        $credentials = $request->validate([
+
+            'email' => ['required' , 'max:255' , 'email'],
+            'password' => ['required']
+
+            ],
+            [
+                'email.required' => 'ایمیل معتبر خود را وارد نمایید!',
+                'email.email' => 'ایمیل معتبر وارد نمایید!',
+                'password.required' => 'کلمه عبور خود را وارد نمایید!',
+            ]
+        );
+
+        if (Auth::attempt($credentials, $request->remember)) {
+            
+            $request->session()->regenerate();
+
+            return redirect()->route('index')->withErrors([
+                'success' => auth()->user()->name . ' خوش امدید.'
+            ]);
+        }
+        
+        Session::regenerate();
+        return redirect()->back()->with('error' , 'نام کاربری یا کلمه عبور شما اشتباه است!');
+    }
+
+    public function logout(Request $request) : RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('index')->withErrors([
+            'success' => 'به امید دیدار مجدد شما'
+        ]);
     }
 }

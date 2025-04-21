@@ -27,4 +27,6 @@ Route::prefix('/dashboard')->group(function(){
 Route::view('/register' , 'auth.register')->name('register');
 Route::post('/register' , [AuthController::class , 'register'])->name('registerController');
 Route::view('/login' , 'auth.login')->name('login');
+Route::post('/login' , [AuthController::class , 'login'])->name('loginController');
+Route::post('/logout' , [AuthController::class , 'logout'])->name('logout');
 

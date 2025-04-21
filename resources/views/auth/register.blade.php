@@ -60,7 +60,7 @@
                                             >ثبت نام</button>
                                 </div>
                                 <div class="col-sm-8 text-sm-end">
-                                    <span>آیا قبلا ثبت نام کرده اید؟ <a href="signin.html"><u>ورود</u></a></span>
+                                    <span>آیا قبلا ثبت نام کرده اید؟ <a href="{{route('login')}}"><u>ورود</u></a></span>
                                 </div>
                             </div>
                         </form>
