@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'driver_name',
+        'driver_id',
     ];
 
     /**

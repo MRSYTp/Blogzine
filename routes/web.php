@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,10 @@ Route::post('/register' , [AuthController::class , 'register'])->name('registerC
 Route::view('/login' , 'auth.login')->name('login');
 Route::post('/login' , [AuthController::class , 'login'])->name('loginController');
 Route::post('/logout' , [AuthController::class , 'logout'])->name('logout');
+
+
+//Auth Social
+
+Route::get('/auth/{driver}/redirect' , [SocialLoginController::class , 'redirect'])->name('authSocial.redirect');
+Route::get('/auth/{driver}/callback' , [SocialLoginController::class , 'callback'])->name('authSocial.callback');
 

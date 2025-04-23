@@ -18,12 +18,18 @@
                             <!-- Email -->
                             <div class="mb-3">
                                 <label class="form-label" for="exampleInputEmail1">پست الکترونیکی</label>
-                                <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="ایمیل">
+                                <input type="email" name="email" class="form-control @error('email') border-danger @enderror" id="exampleInputEmail1" placeholder="ایمیل">
+                                @error('email')
+                                <small id="emailHelp" class="form-text text-danger">{{$message}}</small>
+                                @enderror
                             </div>
                             <!-- Password -->
                             <div class="mb-3">
                                 <label class="form-label" for="exampleInputPassword1">رمز عبور</label>
-                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="*********">
+                                <input type="password" name="password" class="form-control @error('password') border-danger @enderror" id="exampleInputPassword1" placeholder="*********">
+                                @error('password')
+                                <small id="emailHelp" class="form-text text-danger">{{$message}}</small>
+                                @enderror
                             </div>
                             <!-- Checkbox -->
                             <div class="mb-3 form-check">
@@ -47,11 +53,11 @@
                             <p>برای دسترسی سریع با شبکه اجتماعی خود وارد شوید</p>
                             <ul class="list-unstyled d-sm-flex mt-3 justify-content-center">
                                     <li class="mx-2">
-                                        <a href="#" class="btn btn-light d-inline-block fs-6">github<i
+                                        <a href="{{route('authSocial.redirect' , 'github')}}" class="btn btn-light d-inline-block fs-6">github<i
                                                 class="fab fa-github text-dark align-middle ms-2 fs-5"></i></a>
                                     </li>
                                 <li class="mx-2">
-                                    <a href="#" class="btn btn-light d-inline-block fs-6">google<i class="fab fa-google text-danger align-middle ms-2 fs-5"></i></a>
+                                    <a href="{{route('authSocial.redirect' , 'google')}}" class="btn btn-light d-inline-block fs-6">google<i class="fab fa-google text-danger align-middle ms-2 fs-5"></i></a>
                                 </li>
                             </ul>
                         </div>

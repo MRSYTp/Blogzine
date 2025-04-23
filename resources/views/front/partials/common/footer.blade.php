@@ -152,6 +152,9 @@ JS libraries, plugins and custom scripts -->
 @if(session()->has('error'))
     @include('notifications.errorMessageSession')
 @endif
+@if(session()->has('success'))
+    @include('notifications.successMessageSession')
+@endif
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/min/tiny-slider.js"></script>
 </body>
