@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserSubscribed;
 use App\Mail\WelcomeMail;
 use App\Models\User;
 use App\Rules\GoogleCaptchaV3;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +16,14 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) : RedirectResponse
+    public function register(Request $request): RedirectResponse
     {
-        $fields = $request->validate([
-            'name' => ['required' , 'min:5' ,'max:255'],
-            'email' => ['required' , 'max:255' , 'email' , 'unique:users'],
-            'password' => ['required' , 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
-            'g-recaptcha-response' => ['required' , new GoogleCaptchaV3('submit' , 0.6)]
+        $fields = $request->validate(
+            [
+                'name' => ['required', 'min:5', 'max:255'],
+                'email' => ['required', 'max:255', 'email', 'unique:users'],
+                'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
+                'g-recaptcha-response' => ['required', new GoogleCaptchaV3('submit', 0.6)]
             ],
             [
                 'name.required' => 'نام و نام خانوادگی خود را وارد نمایید!',
@@ -43,30 +46,32 @@ class AuthController extends Controller
 
         if (!$user) {
 
-            return redirect()->back()->with('error' , 'مشکلی در ثبت نام شما پیش آمده است مجددا اقدام کنید!');
-            
+            return redirect()->back()->with('error', 'مشکلی در ثبت نام شما پیش آمده است مجددا اقدام کنید!');
         }
 
         Auth::login($user);
-        
 
-        // mail to user 
 
-        Mail::to($request->email)->send(new WelcomeMail($user , $request->password));
+        if ($request->subscribe) {
+
+            event(new UserSubscribed($user));
+        }
+
+        event(new Registered($user, $request->password));
 
         //redirect
         return redirect()->route('index')->withErrors([
             'success' => auth()->user()->name . ' خوش امدید.',
         ]);
-
     }
 
-    public function login(Request $request) : RedirectResponse
+    public function login(Request $request): RedirectResponse
     {
-        $credentials = $request->validate([
+        $credentials = $request->validate(
+            [
 
-            'email' => ['required' , 'max:255' , 'email'],
-            'password' => ['required']
+                'email' => ['required', 'max:255', 'email'],
+                'password' => ['required']
 
             ],
             [
@@ -77,19 +82,19 @@ class AuthController extends Controller
         );
 
         if (Auth::attempt($credentials, $request->remember)) {
-            
+
             $request->session()->regenerate();
 
             return redirect()->route('index')->withErrors([
                 'success' => auth()->user()->name . ' خوش امدید.'
             ]);
         }
-        
+
         Session::regenerate();
-        return redirect()->back()->with('error' , 'نام کاربری یا کلمه عبور شما اشتباه است!');
+        return redirect()->back()->with('error', 'نام کاربری یا کلمه عبور شما اشتباه است!');
     }
 
-    public function logout(Request $request) : RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();

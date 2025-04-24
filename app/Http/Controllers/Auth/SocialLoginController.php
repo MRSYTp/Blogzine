@@ -15,22 +15,22 @@ use Illuminate\Support\Str;
 
 class SocialLoginController extends Controller
 {
-    public function redirect($driver) : RedirectResponse
+    public function redirect($driver): RedirectResponse
     {
         return Socialite::driver($driver)->redirect();
     }
 
-    public function callback($driver) : RedirectResponse
+    public function callback($driver): RedirectResponse
     {
         $user = Socialite::driver($driver)->user();
 
-        $userExists = User::where('email' , $user->getEmail())->first();
+        $userExists = User::where('email', $user->getEmail())->first();
 
         if ($userExists) {
-            
+
             Auth::login($userExists);
             Session::regenerate();
-            return redirect()->intended('/')->with('success' , $userExists->name . ' خوش امدید.');
+            return redirect()->intended('/')->with('success', $userExists->name . ' خوش امدید.');
         }
 
         $password = str::password(12);
@@ -46,9 +46,8 @@ class SocialLoginController extends Controller
         Auth::login($userCreated);
         Session::regenerate();
 
-        Mail::to($user->getEmail())->send(new SocialWelcome($userCreated , $password));
+        Mail::to($user->getEmail())->send(new SocialWelcome($userCreated, $password));
 
-        return redirect()->intended('/')->with('success' , $userCreated->name . ' خوش امدید.');
-
+        return redirect()->intended('/')->with('success', $userCreated->name . ' خوش امدید.');
     }
 }
