@@ -37,3 +37,9 @@ Route::post('/logout' , [AuthController::class , 'logout'])->name('logout');
 Route::get('/auth/{driver}/redirect' , [SocialLoginController::class , 'redirect'])->name('authSocial.redirect');
 Route::get('/auth/{driver}/callback' , [SocialLoginController::class , 'callback'])->name('authSocial.callback');
 
+
+
+Route::view('/forgot-password' , 'auth.forgot-password')->name('password.request');
+Route::post('/forgot-password', [AuthController::class , 'forgotPassword'])->name('password.email');
+Route::get('/reset-password/{token}',[AuthController::class , 'resetPassword'])->name('password.reset');
+Route::post('/reset-password', [AuthController::class , 'updatePassword'])->name('password.update');

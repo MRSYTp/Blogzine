@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class UpdatedPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,7 +20,8 @@ class WelcomeMail extends Mailable
     public function __construct(
         public User $user,
         public string $password
-    ) {
+    )
+    {
         //
     }
 
@@ -30,7 +31,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome',
+            subject: 'Reset Password',
         );
     }
 
@@ -40,7 +41,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.welcome',
+            view: 'mails.updatedPassword',
         );
     }
 
