@@ -16,19 +16,13 @@ class RoleMiddlewere
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
-        $roles = explode('|', $roles);
 
-        if (Auth::check()) {
+        $roles = explode("|", $roles);
 
-            foreach ($roles as $role) {
-
-                if (Auth::user()->role === $role) {
-
-                    return $next($request);
-                }
-            }
+        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
+            return redirect('/');
         }
 
-        return redirect('/');
+        return $next($request);
     }
 }
