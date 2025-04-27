@@ -63,7 +63,7 @@ class AuthController extends Controller
         event(new Registered($user, $request->password));
 
         //redirect
-        return redirect()->route('index')->withErrors([
+        return redirect()->route('home')->withErrors([
             'success' => auth()->user()->name . ' خوش امدید.',
         ]);
     }
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('index')->withErrors([
+            return redirect()->route('home')->withErrors([
                 'success' => auth()->user()->name . ' خوش امدید.'
             ]);
         }
@@ -102,7 +102,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('index')->withErrors([
+        return redirect()->route('home')->withErrors([
             'success' => 'به امید دیدار مجدد شما'
         ]);
     }
