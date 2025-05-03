@@ -5,7 +5,7 @@
         <div class="container">
             <h1 class="mb-4 h3">افزودن دسته بندی </h1>
             <div class="row pb-4 bg-light p-3 mb-4 rounded">
-                <form action="{{route('category.index')}}" method="post">
+                <form action="{{route('category.store')}}" method="post">
                     @csrf
                  <div class="row">
                      <div class="col-sm-12 col-md-4">
@@ -94,8 +94,8 @@
                                 <div class="icon-lg shadow bg-body rounded-circle">{{$category->icon}}</div>
                                 <h4 class="mb-0 ms-3 flex-grow-1">{{$category->name}}</h4>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <a href="{{route('category.edit',$category->id)}}" class="text-success mb-0 me-2"><i class="fas fa-edit"></i></a>
-                                    <form action="{{route('category.destroy',$category->id)}}" method="post">
+                                    <a href="" class="text-success mb-0 me-2"><i class="fas fa-edit"></i></a>
+                                    <form action="" method="post">
                                     @csrf
                                         @method('DELETE')
                                         <button type="submit" class="border-0 bg-transparent"><i class="fas fa-times-circle text-danger"></i></button>

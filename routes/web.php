@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'front.index')->name('home');
@@ -10,6 +11,9 @@ Route::view('/', 'front.index')->name('home');
 Route::prefix('/dashboard')->middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function(){
+
+        Route::get('/article/category' , [CategoryController::class , 'index'])->name('category.index');
+        Route::post('/article/category' , [CategoryController::class , 'store'])->name('category.store');
 
         Route::get('/news/comments', function () {
             return view('dashboard.comments');
