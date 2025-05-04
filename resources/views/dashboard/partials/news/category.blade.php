@@ -10,14 +10,14 @@
                  <div class="row">
                      <div class="col-sm-12 col-md-4">
                          <label class="form-label">نام  </label>
-                         <input name="name" type="text" class="form-control" placeholder="نام دست بندی ..." value="">
+                         <input name="name" type="text" class="form-control @error('name') border-danger @enderror" value="{{old('name')}}" placeholder="نام دست بندی ..." value="">
                          @error('name')
                          <small class="mt-2 d-inline-block text-danger">{{$message}}</small>
                          @enderror
                      </div>
                      <div class="col-sm-12 col-md-4">
                          <label class="form-label">نامک</label>
-                         <input name="slug" type="text" class="form-control" placeholder="  نامک ..." value="">
+                         <input name="slug" type="text" class="form-control @error('slug') border-danger @enderror" value="{{old('slug')}}" placeholder="  نامک ..." value="">
                          @error('slug')
                          <small class="mt-2 d-inline-block text-danger">{{$message}}</small>
                          @enderror
@@ -28,7 +28,7 @@
                      </div>
                      <div class="col-sm-12 col-md-4 mt-3">
                          <label class="form-label">آیکون</label>
-                         <select class="form-control" name="icon" >
+                         <select class="form-control  @error('icon') border-danger @enderror" name="icon" >
                              <option value="⚽️">⚽️ اخبار ورزشی</option>
                              <option value="🏀"> 🏀</option>
                              <option value="🏈">🏈 </option>
@@ -94,9 +94,9 @@
                                 <div class="icon-lg shadow bg-body rounded-circle">{{$category->icon}}</div>
                                 <h4 class="mb-0 ms-3 flex-grow-1">{{$category->name}}</h4>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <a href="" class="text-success mb-0 me-2"><i class="fas fa-edit"></i></a>
-                                    <form action="" method="post">
-                                    @csrf
+                                    <a href="{{route('category.edit' , $category->id)}}" class="text-success mb-0 me-2"><i class="fas fa-edit"></i></a>
+                                    <form action="{{route('category.destroy', $category->id)}}" method="post">
+                                        @csrf
                                         @method('DELETE')
                                         <button type="submit" class="border-0 bg-transparent"><i class="fas fa-times-circle text-danger"></i></button>
                                     </form>

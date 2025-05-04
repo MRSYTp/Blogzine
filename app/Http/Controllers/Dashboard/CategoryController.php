@@ -39,4 +39,46 @@ class CategoryController extends Controller
 
         return Category::create($request->all()) ? redirect()->back()->with('success', ' با موفقیت ایجاد گردید') : redirect()->back()->withErrors(['error' =>  'خطایی در ثبت دسته بندی رخ داده است!']);
     }
+
+    public function edit(int $id): View
+    {
+        $category = Category::findOrFail($id);
+        return view('dashboard.editCategory', compact('category'));
+    }
+
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $request->validate(
+            [
+                'name' => ['required', 'string', 'max:50'],
+                'slug' => ['required', 'string', 'max:50'],
+                'description' => ['nullable', 'string'],
+                'icon' => ['required'],
+            ],
+            [
+                'name.required' => 'برای دسته بندی نام انتخاب نمایید.',
+                'name.max' => 'نام حداکثر می تواند شامل ۵۰ حرف باشد.',
+                'slug.required' => 'برای دسته بندی شناسه لاتین انتخاب نمایید.',
+                'slug.max' => 'نام حداکثر می تواند شامل ۵۰ حرف باشد.',
+                'slug.unique' => 'شناسه ای با این نام قبلا ثبت شده است نام دیگری انتخاب نمایید.',
+                'slug.slug' => 'فرمت شناسه صحیح نمی باشد اگر شناسه بیش از یک بخش دارد هر بخش را با ( - ) از هم جدا نمایید.',
+                'icon.required' => 'برای دسته بندی آیکون انتخاب نمایید.'
+            ]
+        );
+
+        $category = Category::findOrFail($id);
+
+        $result = $category->update($request->all());
+
+        return $result ? redirect()->back()->with('success', 'بروزرسانی شد') : redirect()->back()->withErrors(['error' => 'مشکل در بروزرسانی']);
+    }
+
+    public function destroy(int $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $result = $category->delete();
+
+        return $result ? redirect()->back()->with('success', 'دسته بندی حذف شد') : redirect()->back()->withErrors(['error' => 'حذف دسته بندی با مشکل مواجه شد']);
+    }
 }

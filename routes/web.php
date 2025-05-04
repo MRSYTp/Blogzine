@@ -12,8 +12,17 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function(){
 
-        Route::get('/article/category' , [CategoryController::class , 'index'])->name('category.index');
-        Route::post('/article/category' , [CategoryController::class , 'store'])->name('category.store');
+
+        // Category Routes
+        Route::prefix('/article/category')->group(function(){
+            Route::get('/' , [CategoryController::class , 'index'])->name('category.index');
+            Route::post('/' , [CategoryController::class , 'store'])->name('category.store');
+            Route::get('/edit/{id}' , [CategoryController::class , 'edit'])->where('id' , '[0-9]+')->name('category.edit');
+            Route::put('/update/{id}' , [CategoryController::class , 'update'])->where('id' , '[0-9]+')->name('category.update');
+            Route::delete('/destroy/{id}' , [CategoryController::class , 'destroy'])->where('id' , '[0-9]+')->name('category.destroy');
+        });
+
+
 
         Route::get('/news/comments', function () {
             return view('dashboard.comments');

@@ -13,6 +13,18 @@ class Category extends Model
         'description',
         'icon',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($category) {
+
+            $category->articles()->delete();
+        });
+    }
+
+
+
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
