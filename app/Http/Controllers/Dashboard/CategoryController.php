@@ -40,13 +40,12 @@ class CategoryController extends Controller
         return Category::create($request->all()) ? redirect()->back()->with('success', ' با موفقیت ایجاد گردید') : redirect()->back()->withErrors(['error' =>  'خطایی در ثبت دسته بندی رخ داده است!']);
     }
 
-    public function edit(int $id): View
+    public function edit(Category $category): View
     {
-        $category = Category::findOrFail($id);
         return view('dashboard.editCategory', compact('category'));
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, Category $category): RedirectResponse
     {
         $request->validate(
             [
@@ -66,17 +65,13 @@ class CategoryController extends Controller
             ]
         );
 
-        $category = Category::findOrFail($id);
-
         $result = $category->update($request->all());
 
         return $result ? redirect()->back()->with('success', 'بروزرسانی شد') : redirect()->back()->withErrors(['error' => 'مشکل در بروزرسانی']);
     }
 
-    public function destroy(int $id)
+    public function destroy(Category $category): RedirectResponse
     {
-        $category = Category::findOrFail($id);
-
         $result = $category->delete();
 
         return $result ? redirect()->back()->with('success', 'دسته بندی حذف شد') : redirect()->back()->withErrors(['error' => 'حذف دسته بندی با مشکل مواجه شد']);
