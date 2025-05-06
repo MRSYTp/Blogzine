@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\article\UpdateStoreArticle;
+use App\Models\Dashboard\Article;
+use App\Models\Dashboard\Category;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -18,17 +23,25 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+
+        $categories = Category::all();
+        return view('dashboard.create-article', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UpdateStoreArticle $request): RedirectResponse
     {
-        //
+        $article = $request->validated();
+
+        $result = Article::create($article);
+
+        return $result
+            ? redirect()->route('article.index')->with('success', 'مقاله شما با موفقیت ثبت شد')
+            : redirect()->back()->withErrors(['error' => 'خطایی در ثبت مقاله رخ داده است!']);
     }
 
     /**

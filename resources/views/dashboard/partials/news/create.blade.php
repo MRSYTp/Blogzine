@@ -22,7 +22,7 @@
                                     <!-- Post name -->
                                     <div class="mb-3">
                                         <label class="form-label">عنوان</label>
-                                        <input id="con-name" name="title" type="text" class="form-control"
+                                        <input id="con-name" name="title" type="text" class="form-control @error('title') border-danger @enderror"
                                                placeholder="عنوان خبر" value="">
                                         @error('title')
                                         <small class="mt-3 text-danger">{{$message}}</small>
@@ -69,7 +69,7 @@
 
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                 <input type="radio" class="btn-check" name="type" id="option5" value="چندرسانه ای">
+                                                <input type="radio" class="btn-check" name="type" id="option5" value="چندرسانه ای">
                                                 <label class="btn btn-outline-light w-100" for="option5">
                                                     <i class="bi bi-camera-reels fs-1"></i>
                                                     <span class="d-block"> چندرسانه ای </span>
@@ -109,7 +109,7 @@
                                             <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title=" ( برای seo بهتر است عنوانی مناسب شامل کلمات کلیدی این خبر برای این مطلب انتخاب کرده و هر کلمه را با - از هم جدا نمایید )">
                                             </i>
                                         </div>
-                                        <input class="form-control" name="slug" placeholder="نامک ...">
+                                        <input class="form-control @error('slug') border-danger @enderror" name="slug" placeholder="نامک ...">
                                         @error('slug')
                                         <small class="mt-3 text-danger">{{$message}}</small>
                                         @enderror
@@ -123,9 +123,9 @@
                                             <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="توضیح مختصری در مورد این خبر شامل کلمات کلیدی و حداکثر شامل ۲۶۰ کارکتر بنویسید">
                                             </i>
                                         </div>
-                                        <textarea class="form-control" name="brief" style="min-height: 100px"
+                                        <textarea class="form-control" name="short_body" style="min-height: 100px"
                                                   placeholder="توضیح مختصری را درباره خبر بنویسید..."></textarea>
-                                        @error('brief')
+                                        @error('short_body')
                                         <small class="mt-3 text-danger">{{$message}}</small>
                                         @enderror
                                     </div>
@@ -194,21 +194,14 @@
                                 <div class="mb-3">
                                     <label class="form-label">دسته بندی</label>
                                     <select class="form-select" name="category_id" aria-label="Default select example">
-{{--@if($categories)
-@if(count($categories)> 0 )
-@if($categories->isNotEmpty())
-@if(!empty($categories))
-    @isset($categories)--}}
-        @forelse($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>
 
-            @empty
-                                                        <option>دسته بندی پیدا نشد!</option>
-                                                    @endforelse
-                                   {{--     @else
+                                        @forelse($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+
+                                        @empty
                                             <option>دسته بندی پیدا نشد!</option>
-                                        @endif
-                                            @endisset--}}
+                                        @endforelse
+
                                     </select>
                                     @error('category_id')
                                     <small class="mt-3 text-danger">{{$message}}</small>

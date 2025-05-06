@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\ArticleController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,8 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
     });
 
     Route::middleware('role:admin|author')->group(function(){
+
+        Route::resource('article' , ArticleController::class);
         
         Route::get('/', function () {
             return view('dashboard.index');
