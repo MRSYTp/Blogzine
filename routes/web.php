@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\ArticleController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\FileManagerController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'front.index')->name('home');
@@ -37,6 +38,9 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
     Route::middleware('role:admin|author')->group(function(){
 
         Route::resource('article' , ArticleController::class);
+
+        Route::get('/file-manager' , [FileManagerController::class , 'index'])->name('file-manager.index');
+        Route::post('/file-manager' , [FileManagerController::class , 'store'])->name('file-manager.store');
         
         Route::get('/', function () {
             return view('dashboard.index');

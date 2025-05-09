@@ -13,14 +13,18 @@ class Article extends Model
         'type',
         'body',
         'slug',
-        'short_body',
-        'thumbnail',
+        'brief',
+        'thumbnail_small',
+        'thumbnail_medium',
+        'thumbnail_large',
         'tags',
         'author_id',
         'category_id',
         'status'
     ];
-    public function category() : BelongsTo
+
+    
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }

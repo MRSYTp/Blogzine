@@ -53,6 +53,14 @@ class UpdateStoreArticle extends FormRequest
         ];
     }
 
+
+    public function validated($key = null, $default = null)
+    {
+        $validatedData = parent::validated();
+        unset($validatedData['thumbnail']);
+        return $validatedData;
+    }
+
     public function prepareForValidation(): void
     {
         $this->merge([
@@ -64,7 +72,5 @@ class UpdateStoreArticle extends FormRequest
         if (!empty($this->slug)) {
             $this->merge(['slug' => Str::slug($this->slug)]);
         }
-
-
     }
 }

@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\article\UpdateStoreArticle;
 use App\Models\Dashboard\Article;
 use App\Models\Dashboard\Category;
+use App\Services\FileUploadService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+
+
+
+    public function __construct(protected FileUploadService $FileUploadService) {}
+
+
     /**
      * Display a listing of the resource.
      */
@@ -33,9 +40,19 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UpdateStoreArticle $request): RedirectResponse
+    public function store(UpdateStoreArticle $request, FileUploadService $FileUploadService): RedirectResponse
     {
         $article = $request->validated();
+
+
+        if ($request->hasFile('thumbnail')) {
+
+            $image = $request->file('thumbnail');
+
+            $thumbnails = $FileUploadService->fileUpload($image, false, true);
+
+            $article = array_merge($article,$thumbnails);
+        }
 
         $result = Article::create($article);
 
