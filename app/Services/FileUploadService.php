@@ -12,6 +12,13 @@ class FileUploadService
         'large' => [1000, 750],
     ];
 
+    private array $extensions = [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+    ];
+
 
     public function __construct()
     {
@@ -55,12 +62,35 @@ class FileUploadService
     {
         $names = [];
         foreach ($this->thumbnailDimension as $size => $dimensions) {
+
             $image = $this->resize($file, $dimensions[0], $dimensions[1]);
             $image = $this->addWaterMark($image);
-            //$image->save(public_path().'/thumbnails/t.jpg');
             $names["thumbnail_{$size}"] = $this->upload($file, $image, $size);
         }
         return $names;
+    }
+
+
+    public function processFileManager($files)
+    {
+
+        $fileNames = [];
+
+        foreach ($files as $file) {
+
+            $mimeType = $file->getClientMimeType();
+
+            if (str_starts_with($mimeType, 'image/')) {
+
+                $image = $this->addWaterMark($file);
+                $fileNames[] = $this->upload($file, $image, 'file_manager');
+            } else {
+
+                $fileNames[] = $this->upload($file, $file, 'file_manager');
+            }
+        }
+
+        return $fileNames;
     }
 
     private function resize($file, $width, $height)
@@ -83,7 +113,6 @@ class FileUploadService
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-
     }
 
     private function addWaterMark($image): \Intervention\Image\Interfaces\ImageInterface
@@ -103,18 +132,23 @@ class FileUploadService
         $imageOriginalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $imageExtenstion = $file->getClientOriginalExtension();
         $newFileName = $imageOriginalName . '-' . uniqid() . '-' . $type . '.' . $imageExtenstion;
-        $findUploadPath = $this->findUploadPath($type);
-        $uploadPath = $findUploadPath . $newFileName;
-        $image->save($uploadPath);
+        $uploadPath = $this->findUploadPath($type);
+
+
+        if (in_array($imageExtenstion, $this->extensions)) {
+            $image->save($uploadPath . $newFileName);
+            return $newFileName;
+        }
+
+        $file->move($uploadPath, $newFileName);
         return $newFileName;
     }
 
     private function findUploadPath($type): string
     {
         return match ($type) {
-            'avatars' => "uploads/{$type}/",
+            'avatars', 'file_manager' => "uploads/{$type}/",
             'small', 'medium', 'large' => "uploads/thumbnails/{$type}/",
-            default => "uploads/file_manager/{$type}/",
         };
     }
 }

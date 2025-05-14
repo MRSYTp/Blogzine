@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('file_managers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('file_name');
             $table->timestamps();
         });
     }

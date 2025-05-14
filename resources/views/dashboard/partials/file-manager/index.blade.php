@@ -5,14 +5,6 @@
                 <!-- Title -->
                 <h1 class="mb-0 h3">بارگزاری فایل</h1>
             </div>
-            <!-- Add this to your upload.blade.php -->
-            @if (session('success'))
-                <div>{{ session('success') }}</div>
-            @endif
-
-            @if (session('error'))
-                <div>{{ session('error') }}</div>
-            @endif
         </div>
         <div class="row">
             <form action="{{route('file-manager.store')}}" method="POST" enctype="multipart/form-data">
