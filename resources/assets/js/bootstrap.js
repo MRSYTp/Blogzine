@@ -27,6 +27,7 @@ import './dashboard/tinymce'
 import './dashboard/iamgeUploadPreview'
 import './dashboard/imageFileManagerPreview'
 import './dashboard/bootstrapTooltips'
+import './dashboard/clickboardFile'
 
 
 import.meta.glob([ '../assets/images/**', ]);

@@ -10,6 +10,7 @@ class FileManager extends Model
     protected $fillable = [
         'user_id',
         'file_name',
+        'type',
     ];
 
 }

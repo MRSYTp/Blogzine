@@ -41,6 +41,7 @@ Route::prefix('/dashboard')->middleware('auth')->group(function () {
 
         Route::get('/file-manager' , [FileManagerController::class , 'index'])->name('file-manager.index');
         Route::post('/file-manager' , [FileManagerController::class , 'store'])->name('file-manager.store');
+        Route::delete('/file-manager' , [FileManagerController::class , 'destroy'])->name('file-manager.destroy');
         
         Route::get('/', function () {
             return view('dashboard.index');

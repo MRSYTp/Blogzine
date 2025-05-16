@@ -65,7 +65,8 @@ class FileUploadService
 
             $image = $this->resize($file, $dimensions[0], $dimensions[1]);
             $image = $this->addWaterMark($image);
-            $names["thumbnail_{$size}"] = $this->upload($file, $image, $size);
+            $fileInfo = $this->upload($file, $image, $size);
+            $names["thumbnail_{$size}"] = $fileInfo['fileName'] . '.' . $fileInfo['fileExtenstion'];
         }
         return $names;
     }
@@ -74,7 +75,7 @@ class FileUploadService
     public function processFileManager($files)
     {
 
-        $fileNames = [];
+        $fileInfo = [];
 
         foreach ($files as $file) {
 
@@ -83,14 +84,14 @@ class FileUploadService
             if (str_starts_with($mimeType, 'image/')) {
 
                 $image = $this->addWaterMark($file);
-                $fileNames[] = $this->upload($file, $image, 'file_manager');
+                $fileInfo[] = $this->upload($file, $image, 'file_manager');
             } else {
 
-                $fileNames[] = $this->upload($file, $file, 'file_manager');
+                $fileInfo[] = $this->upload($file, $file, 'file_manager');
             }
         }
 
-        return $fileNames;
+        return $fileInfo;
     }
 
     private function resize($file, $width, $height)
@@ -127,21 +128,25 @@ class FileUploadService
         return $image;
     }
 
-    private function upload($file, $image, $type): string
+    private function upload($file, $image, $type): array
     {
-        $imageOriginalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $imageExtenstion = $file->getClientOriginalExtension();
-        $newFileName = $imageOriginalName . '-' . uniqid() . '-' . $type . '.' . $imageExtenstion;
+        $fileOriginalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileExtenstion = $file->getClientOriginalExtension();
+        $newFileName = $fileOriginalName . '-' . uniqid() . '-' . $type;
         $uploadPath = $this->findUploadPath($type);
 
 
-        if (in_array($imageExtenstion, $this->extensions)) {
-            $image->save($uploadPath . $newFileName);
-            return $newFileName;
+        if (in_array($fileExtenstion, $this->extensions)) {
+            $image->save($uploadPath . $newFileName . '.' . $fileExtenstion);
+        } else {
+            $file->move($uploadPath, $newFileName . '.' . $fileExtenstion);
         }
 
-        $file->move($uploadPath, $newFileName);
-        return $newFileName;
+
+        return [
+            'fileName' => $newFileName,
+            'fileExtenstion' => $fileExtenstion,
+        ];
     }
 
     private function findUploadPath($type): string

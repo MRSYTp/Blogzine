@@ -19,7 +19,7 @@ class FileManagerRequest extends FormRequest
         return [
 
             'files' => 'required|array',
-            'files.*' => 'file|max:2048|mimes:jpeg,jpg,png,gif,pdf,mp4,webm,avi,mov,txt',
+            'files.*' => 'file|max:20048|mimes:jpeg,jpg,png,gif,pdf,zip,rar,mp4,webm,avi,mov,txt',
         ];
     }
 

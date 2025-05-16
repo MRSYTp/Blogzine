@@ -17809,3 +17809,21 @@ background-color: #efefef;
 .pagination .page-item:first-child a,.pagination .page-item:last-child a{
     padding: 5px 14px;
 }
+
+
+    .clickable-element {
+
+        cursor: pointer;
+    }
+
+    #notification {
+
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1050;
+        display: none;
+        width: auto;
+        max-width: 300px;
+    }
