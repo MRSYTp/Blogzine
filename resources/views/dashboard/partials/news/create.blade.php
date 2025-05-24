@@ -3,11 +3,15 @@
         <div class="row pb-4">
             <div class="col-12">
                 <!-- Title -->
-                <h1 class="mb-0 h3">ایجاد خبر جدید</h1>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="mb-0 h3">ایجاد خبر جدید</h1>
+                    <a href="" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">چندرسانه
+                    </a>
+                </div>
             </div>
         </div>
         <div class="row">
-            <form class="row" action="{{route('article.store')}}" method="post" enctype="multipart/form-data">
+            <form class="row" action="{{ route('article.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="col-sm-12 col-md-8">
                     <!-- Chart START -->
@@ -22,10 +26,11 @@
                                     <!-- Post name -->
                                     <div class="mb-3">
                                         <label class="form-label">عنوان</label>
-                                        <input id="con-name" name="title" type="text" class="form-control @error('title') border-danger @enderror"
-                                               placeholder="عنوان خبر" value="">
+                                        <input id="con-name" name="title" type="text"
+                                            class="form-control @error('title') border-danger @enderror"
+                                            placeholder="عنوان خبر" value="">
                                         @error('title')
-                                        <small class="mt-3 text-danger">{{$message}}</small>
+                                            <small class="mt-3 text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -36,7 +41,8 @@
                                         <div class="d-flex flex-wrap gap-3">
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option" value="فوری">
+                                                <input type="radio" class="btn-check" name="type" id="option"
+                                                    value="فوری">
                                                 <label class="btn btn-outline-light w-100" for="option">
                                                     <i class="bi bi-chat-left-text fs-1"></i>
                                                     <span class="d-block"> فوری</span>
@@ -44,7 +50,8 @@
                                             </div>
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option2" value="حوادث">
+                                                <input type="radio" class="btn-check" name="type" id="option2"
+                                                    value="حوادث">
                                                 <label class="btn btn-outline-light w-100" for="option2">
                                                     <i class="bi bi-patch-question fs-1"></i>
                                                     <span class="d-block"> حوادث </span>
@@ -52,7 +59,8 @@
                                             </div>
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option3" value="خبری">
+                                                <input type="radio" class="btn-check" name="type" id="option3"
+                                                    value="خبری">
                                                 <label class="btn btn-outline-light w-100" for="option3">
                                                     <i class="bi bi-chat-right-dots fs-1"></i>
                                                     <span class="d-block"> خبری </span>
@@ -60,7 +68,8 @@
                                             </div>
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option4" value="متنی">
+                                                <input type="radio" class="btn-check" name="type" id="option4"
+                                                    value="متنی">
                                                 <label class="btn btn-outline-light w-100" for="option4">
                                                     <i class="bi bi-ui-checks-grid fs-1"></i>
                                                     <span class="d-block"> متنی </span>
@@ -69,7 +78,8 @@
 
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option5" value="چندرسانه ای">
+                                                <input type="radio" class="btn-check" name="type" id="option5"
+                                                    value="چندرسانه ای">
                                                 <label class="btn btn-outline-light w-100" for="option5">
                                                     <i class="bi bi-camera-reels fs-1"></i>
                                                     <span class="d-block"> چندرسانه ای </span>
@@ -77,7 +87,8 @@
                                             </div>
                                             <!-- Post type item -->
                                             <div class="flex-fill">
-                                                <input type="radio" class="btn-check" name="type" id="option6" value="سایر">
+                                                <input type="radio" class="btn-check" name="type" id="option6"
+                                                    value="سایر">
                                                 <label class="btn btn-outline-light w-100" for="option6">
                                                     <i class="bi bi-chat-square fs-1"></i>
                                                     <span class="d-block"> سایر </span>
@@ -86,7 +97,7 @@
                                             <!-- Post type item -->
                                         </div>
                                         @error('type')
-                                        <small class="mt-3 text-danger">{{$message}}</small>
+                                            <small class="mt-3 text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -97,7 +108,7 @@
                                         <label class="form-label">متن خبر</label>
                                         <textarea id="newsBody" class="form-control" name="body" style="min-height: 300px"></textarea>
                                         @error('body')
-                                        <small class="mt-3 text-danger">{{$message}}</small>
+                                            <small class="mt-3 text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -106,12 +117,15 @@
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <label class="form-label">نامک</label>
-                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title=" ( برای seo بهتر است عنوانی مناسب شامل کلمات کلیدی این خبر برای این مطلب انتخاب کرده و هر کلمه را با - از هم جدا نمایید )">
+                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title=" ( برای seo بهتر است عنوانی مناسب شامل کلمات کلیدی این خبر برای این مطلب انتخاب کرده و هر کلمه را با - از هم جدا نمایید )">
                                             </i>
                                         </div>
-                                        <input class="form-control @error('slug') border-danger @enderror" name="slug" placeholder="نامک ...">
+                                        <input class="form-control @error('slug') border-danger @enderror"
+                                            name="slug" placeholder="نامک ...">
                                         @error('slug')
-                                        <small class="mt-3 text-danger">{{$message}}</small>
+                                            <small class="mt-3 text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -120,13 +134,15 @@
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <label class="form-label">توضیح مختصر</label>
-                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="توضیح مختصری در مورد این خبر شامل کلمات کلیدی و حداکثر شامل ۲۶۰ کارکتر بنویسید">
+                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="توضیح مختصری در مورد این خبر شامل کلمات کلیدی و حداکثر شامل ۲۶۰ کارکتر بنویسید">
                                             </i>
                                         </div>
                                         <textarea class="form-control" name="short_body" style="min-height: 100px"
-                                                  placeholder="توضیح مختصری را درباره خبر بنویسید..."></textarea>
+                                            placeholder="توضیح مختصری را درباره خبر بنویسید..."></textarea>
                                         @error('short_body')
-                                        <small class="mt-3 text-danger">{{$message}}</small>
+                                            <small class="mt-3 text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -145,22 +161,24 @@
                                     <div class="position-relative">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="my-2">آپلود تصویر شاخص</h6>
-                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title=" فرمت های مجاز: JPG، JPEG و PNG و ابعاد
+                                            <i class="fa fa-question-circle" data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title=" فرمت های مجاز: JPG، JPEG و PNG و ابعاد
                                                 پیشنهادی ما 600px * 450px است. تصاویر بزرگتر به اندازه 4:3 برش داده می شود
                                                 تا با تصاویر کوچک/پیش نمایش ما مطابقت داشته باشد.">
                                             </i>
                                         </div>
                                         <label class="w-100" style="cursor:pointer;">
                                             <div class="input-group flex-row-reverse">
-                                                <input type="text" class="form-control upload-name"/>
-                                                <span
-                                                    class="btn btn-custom cursor-pointer upload-button">آپلود فایل</span>
+                                                <input type="text" class="form-control upload-name" />
+                                                <span class="btn btn-custom cursor-pointer upload-button">آپلود
+                                                    فایل</span>
                                             </div>
-                                            <input id="fileInput" class="form-control stretched-link  hidden-upload d-none"
-                                                   type="file" name="thumbnail"
-                                                   />
+                                            <input id="fileInput"
+                                                class="form-control stretched-link  hidden-upload d-none"
+                                                type="file" name="thumbnail" />
                                             @error('thumbnail')
-                                            <small class="mt-3 text-danger">{{$message}}</small>
+                                                <small class="mt-3 text-danger">{{ $message }}</small>
                                             @enderror
                                         </label>
                                     </div>
@@ -177,14 +195,15 @@
                                 <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <label class="form-label">برچسب</label>
-                                        <i class="fa fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="حداکثر 14 کلمه کلیدی، کلمات کلیدی باید با حروف کوچک و با کاما از هم جدا
+                                        <i class="fa fa-question-circle" data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="حداکثر 14 کلمه کلیدی، کلمات کلیدی باید با حروف کوچک و با کاما از هم جدا
                                                 شوند. به عنوان مثال، جاوا اسکریپت، واکنش، بازاریابی">
                                         </i>
                                     </div>
-                                    <textarea class="form-control" name="tags" rows="1"
-                                              placeholder="ورزش، اقتصاد، ..."></textarea>
+                                    <textarea class="form-control" name="tags" rows="1" placeholder="ورزش، اقتصاد، ..."></textarea>
                                     @error('tags')
-                                    <small class="mt-3 text-danger">{{$message}}</small>
+                                        <small class="mt-3 text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -193,10 +212,11 @@
                                 <!-- Message -->
                                 <div class="mb-3">
                                     <label class="form-label">دسته بندی</label>
-                                    <select class="form-select" name="category_id" aria-label="Default select example">
+                                    <select class="form-select" name="category_id"
+                                        aria-label="Default select example">
 
                                         @forelse($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
 
                                         @empty
                                             <option>دسته بندی پیدا نشد!</option>
@@ -204,14 +224,15 @@
 
                                     </select>
                                     @error('category_id')
-                                    <small class="mt-3 text-danger">{{$message}}</small>
+                                        <small class="mt-3 text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-check my-3">
-                                    <input class="form-check-input" name="status" type="checkbox" value="" id="postCheck">
+                                    <input class="form-check-input" name="status" type="checkbox" value=""
+                                        id="postCheck">
                                     <label class="form-check-label" for="postCheck">
                                         ارسال برای بازبینی
                                     </label>
@@ -229,7 +250,59 @@
                     </div>
                 </div>
             </form>
-            {{--            Form End--}}
+            {{--            Form End --}}
         </div>
     </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">چندرسانه ای</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (!$fileManagers->isEmpty())
+                    <div class="row">
+                        @foreach ($fileManagers as $file)
+                            <div class="col-sm-12 col-md-3 mb-4 position-relative">
+
+                                <div class="form-check position-absolute z-1" style="top: 10px; left: 21px">
+                                    <input type="checkbox" name="selectFile[]" class="form-check-input"
+                                        value="{{ $file->id }}">
+                                </div>
+                                @if (in_array($file->type, ['jpg', 'jpeg', 'png', 'gif']))
+                                    <img class="img-thumbnail p-2 clickable-element"
+                                        src="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}"
+                                        alt=""
+                                        data-url="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}">
+                                @elseif(in_array($file->type, ['mp4', 'mov', 'avi']))
+                                    <video controls class="img-thumbnail p-2 clickable-element"
+                                        data-url="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}">
+                                        <source
+                                            src="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}"
+                                            type="video/{{ $file->type }}">
+                                    </video>
+                                @elseif(in_array($file->type, ['rar', 'zip']))
+                                    <span
+                                        class="d-flex justify-content-center align-content-center bg-light h-100 img-thumbnail clickable-element"
+                                        data-url="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}"><i
+                                            class="far fa-file-archive fs-3 text-info "></i></span>
+                                @elseif($file->type == 'txt')
+                                    <span
+                                        class="d-flex justify-content-center align-content-center bg-light h-100 img-thumbnail clickable-element"
+                                        data-url="{{ asset('uploads/file_manager/' . $file->file_name . '.' . $file->type) }}"><i
+                                            class="far fa-file-word fs-3 text-info "></i></span>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="alert alert-info">تااکنون فایلی اپلود نشده است.</div>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@include('notifications.clickBoard')

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\article\UpdateStoreArticle;
 use App\Models\Dashboard\Article;
 use App\Models\Dashboard\Category;
+use App\Models\Dashboard\FileManager;
 use App\Services\FileUploadService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +35,8 @@ class ArticleController extends Controller
     {
 
         $categories = Category::all();
-        return view('dashboard.create-article', compact('categories'));
+        $fileManagers = FileManager::orderBy('id' , 'desc')->get();
+        return view('dashboard.create-article', compact(['categories' , 'fileManagers']));
     }
 
     /**

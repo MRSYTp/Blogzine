@@ -13,7 +13,7 @@ class GoogleCaptchaV3 implements ValidationRule
     public function __construct(
         private ?string $action = null,
         private ?float $minScore = null
-    ){}
+    ) {}
 
 
     /**
@@ -23,18 +23,18 @@ class GoogleCaptchaV3 implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $siteVerify = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify' , [
+        $siteVerify = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => config('services.google_recaptcha_v3.secretKey'),
             'response' => $value,
         ]);
 
         $message = [
-            'fail'=>'در حال حاضر سیستم اعتبار سنجی گوگل قادر به پاسخگویی و اعتبار سنجی درخواست شما نمی باشد! لحظاتی بعد اقدام کنید.',
-              'error'=>'اعتبار سنجی شما توسط سیستم احراز هویت گوگل رد شد ! مجددا تلاش نمایید',
-              'failAction'=>'اکشن فرم با اکشن سیستم احراز هویت گوگل تطابق ندارد!',
-              'failScore'=>'امتیاز دریافت شده شما از سیستم احراز هویت گوگل پایین تر از حد مجاز است ! مجددا تلاش نمایید.'
-  
-          ];
+            'fail' => 'در حال حاضر سیستم اعتبار سنجی گوگل قادر به پاسخگویی و اعتبار سنجی درخواست شما نمی باشد! لحظاتی بعد اقدام کنید.',
+            'error' => 'اعتبار سنجی شما توسط سیستم احراز هویت گوگل رد شد ! مجددا تلاش نمایید',
+            'failAction' => 'اکشن فرم با اکشن سیستم احراز هویت گوگل تطابق ندارد!',
+            'failScore' => 'امتیاز دریافت شده شما از سیستم احراز هویت گوگل پایین تر از حد مجاز است ! مجددا تلاش نمایید.'
+
+        ];
 
         if ($siteVerify->failed()) {
             $fail($message['fail']);
@@ -50,7 +50,7 @@ class GoogleCaptchaV3 implements ValidationRule
                 return;
             }
 
-            if (!is_null($this->action) && ($this->action != $body['action']) ) {
+            if (!is_null($this->action) && ($this->action != $body['action'])) {
                 $fail($message['failAction']);
                 return;
             }
@@ -59,8 +59,6 @@ class GoogleCaptchaV3 implements ValidationRule
                 $fail($message['failScore']);
                 return;
             }
-
         }
-
     }
 }
